@@ -97,7 +97,11 @@ function add (item){
  * @returns {void}
  */
 function remove(index){
-  if(index){
+  if(index>list.length-1){
+    console.log("You entered a wrong number\t try 'help'");
+
+  }
+  else if(index){
     console.log(list[index]+" task is removed");
     console.log("------------------");
     list.splice(index);
