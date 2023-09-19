@@ -78,5 +78,6 @@ function quit(){
   process.exit();
 }
 
+
 // The following line starts the application
-startApp("Jad Sarout")
+startApp("Jihad abdlghani")
