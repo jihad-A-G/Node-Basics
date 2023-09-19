@@ -81,6 +81,12 @@ function quit(){
   process.exit();
 }
 
+
+/**
+ * Print all commands available in the application
+ *
+ * @returns {void}
+ */
 function help(){
   const obj={
     help:"prints all the command available",
