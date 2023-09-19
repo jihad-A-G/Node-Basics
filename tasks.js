@@ -44,10 +44,28 @@ function onDataReceived(text) {
   else if(res[0]+"\n"==='help\n'){
     help();
   }
+  else if(text==="list\n"){
+    List();
+  }
   else{
     unknownCommand(text);
   }
 }
+
+//Declare List of tasks.
+const list = ["Buy coffee","Do sport at 6"];
+
+/**
+ * prints the list items
+ *
+ * @returns {void}
+ */
+function List(){
+  list.map((item,index)=>{
+    console.log((index+1)+"- [ ] "+item);
+  })
+}
+
 
 
 /**
