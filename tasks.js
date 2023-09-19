@@ -46,9 +46,13 @@ function onDataReceived(text) {
   }
   else if(text==="list\n"){
     List();
-  }else if(res[0]+"\n"==="add\n"){
+  }
+  else if(res[0]+"\n"==="add\n"){
     add(res[1]);
   }
+  else if(res[0]+"\n" === "remove\n"){
+    remove(+res[1]-1);
+    }
   else{
     unknownCommand(text);
   }
@@ -78,7 +82,6 @@ function List(){
 function add (item){
   if(item){
     list.push(item);
-    console.log("------------------");
     console.log(item+" is added to the list");
     console.log("------------------");
   }else{
@@ -86,6 +89,25 @@ function add (item){
   }
 }
 
+/**
+ * remove an item from the list
+ * This function is supposed to remove the specified item, if not remove the last item.
+ *
+ * @param  {string} index the index received
+ * @returns {void}
+ */
+function remove(index){
+  if(index){
+    console.log(list[index]+" task is removed");
+    console.log("------------------");
+    list.splice(index);
+
+  }else{
+    console.log("last task is removed");
+    console.log("------------------");
+    list.pop();
+  }
+}
 
 
 /**
