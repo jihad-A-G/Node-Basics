@@ -93,6 +93,7 @@ function help(){
   const obj={
     help:"prints all the command available",
     hello:"prints hello!",
+    hello_X:"print hello X!",
     quit:"quit the application",
     exit:"exit the application",
   }
