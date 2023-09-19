@@ -46,6 +46,8 @@ function onDataReceived(text) {
   }
   else if(text==="list\n"){
     List();
+  }else if(res[0]+"\n"==="add\n"){
+    add(res[1]);
   }
   else{
     unknownCommand(text);
@@ -64,6 +66,24 @@ function List(){
   list.map((item,index)=>{
     console.log((index+1)+"- [ ] "+item);
   })
+}
+
+/**
+ * Add an item to the list
+ * This function is supposed to add new item if the command is correct, else return an error.
+ *
+ * @param  {string} item the item received
+ * @returns {void}
+ */
+function add (item){
+  if(item){
+    list.push(item);
+    console.log("------------------");
+    console.log(item+" is added to the list");
+    console.log("------------------");
+  }else{
+    console.log("ERROR!, please try to add something.");
+  }
 }
 
 
