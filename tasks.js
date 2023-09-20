@@ -50,6 +50,20 @@ function onDataReceived(text) {
   else if(res[0]+"\n"==="add\n"){
     add(res[1]);
   }
+  else if(res[0]+"\n" === "edit\n"){
+    
+    if(!isNaN(parseInt(res[1]))){
+      index=+res[1];
+      res.splice(0,2);
+      task=res.join(" ");
+      edit(index,task);
+    }else{
+      res.splice(0,1);
+      task=res.join(" ");
+      edit(-1,task);
+    }
+
+  }
   else if(res[0]+"\n" === "remove\n"){
     remove(+res[1]-1);
     }
@@ -86,6 +100,26 @@ function add (item){
     console.log("------------------");
   }else{
     console.log("ERROR!, please try to add something.");
+  }
+}
+
+/**
+ * edit an item from the list
+ * This function is supposed to edit the specified item, if not edit the last item.
+ *
+ * @param  {string} index the index received
+ * @returns {void}
+ */
+
+function edit(i,new_value){
+    if(+i === -1){
+            list[list.length-1]=new_value;
+      console.log("task "+(list.length)+" changed to "+new_value);
+      console.log("------------------");
+    }else{
+    list[--i]=new_value;
+    console.log("task "+(++i)+" changed to "+new_value);
+    console.log("------------------");
   }
 }
 
