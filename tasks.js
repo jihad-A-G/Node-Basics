@@ -194,6 +194,8 @@ function help(){
     hello_X:"print hello X!",
     list:"prints all tasks in the list",
     add_X:"add X task to the list",
+    edit_N_X:"edit the task at number N yo X",
+    edit_X:"edit the last task to X",
     remove:"remove the last task in the list",
     remove_I:"remove the task at index I",
     quit:"quit the application",
