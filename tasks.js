@@ -68,6 +68,12 @@ function onDataReceived(text) {
   else if(res[0]+"\n" === "remove\n"){
     remove(+res[1]);
     }
+    else if (res[0]+"\n" === "check\n"){
+      check(+res[1]);
+    }
+    else if (res[0]+"\n" === "uncheck\n"){
+      unCheck(+res[1]);
+    }
   else{
     unknownCommand(text);
   }
@@ -153,6 +159,42 @@ function remove(index){
 
 
 /**
+ * mark the task as done
+ * This function is supposed to check the specified item, if no specified task it will give an error.
+ *
+ * @param  {string} index the index received
+ * @returns {void}
+ */
+
+function check(index){
+  if(!index){
+    console.log("ERROR!, specify which task to check or \t try 'help'");
+  }else{
+    list[index-1].done=true;
+    console.log("task "+index+" is done!");
+    console.log("------------------");
+  }
+}
+
+/**
+ * mark the task as not done
+ * This function is supposed to uncheck the specified item, if no specified task it will give an error.
+ *
+ * @param  {string} index the index received
+ * @returns {void}
+ */
+
+function unCheck(index){
+  if(!index){
+    console.log("ERROR!, specify which task to check or \t try 'help'");
+  }else{
+    list[index-1].done=false;
+    console.log("task "+index+" is unchecked");
+    console.log("------------------");
+  }
+}
+
+/**
  * prints "unknown command"
  * This function is supposed to run when all other commands have failed
  *
@@ -202,6 +244,8 @@ function help(){
     edit_X:"edit the last task to X",
     remove:"remove the last task in the list",
     remove_I:"remove the task at index I",
+    check_N:"mark the task at N as done",
+    uncheck_N:"un-check the task at N",
     quit:"quit the application",
     exit:"exit the application",
   }
