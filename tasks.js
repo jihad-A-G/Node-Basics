@@ -48,7 +48,8 @@ function onDataReceived(text) {
     List();
   }
   else if(res[0]+"\n"==="add\n"){
-    add(res[1]);
+    res.splice(0,1);
+    add(res.join(" "));
   }
   else if(res[0]+"\n" === "edit\n"){
     
@@ -65,7 +66,7 @@ function onDataReceived(text) {
 
   }
   else if(res[0]+"\n" === "remove\n"){
-    remove(+res[1]-1);
+    remove(+res[1]);
     }
   else{
     unknownCommand(text);
@@ -73,7 +74,7 @@ function onDataReceived(text) {
 }
 
 //Declare List of tasks.
-const list = ["Buy coffee","Do sport at 6"];
+const list = [{task:"Buy coffee",done:false},{task:"Do sport at 6",done:true}];
 
 /**
  * prints the list items
@@ -82,7 +83,7 @@ const list = ["Buy coffee","Do sport at 6"];
  */
 function List(){
   list.map((item,index)=>{
-    console.log((index+1)+"- [ ] "+item);
+    console.log((index+1)+"- ["+(item.done?" \u2713 ":" ")+"] "+item.task);
   })
 }
 
@@ -95,7 +96,7 @@ function List(){
  */
 function add (item){
   if(item){
-    list.push(item);
+    list.push({task:item,done:false});
     console.log(item+" is added to the list");
     console.log("------------------");
   }else{
@@ -112,12 +113,15 @@ function add (item){
  */
 
 function edit(i,new_value){
-    if(+i === -1){
-            list[list.length-1]=new_value;
+  if(i){
+    console.log("ERROR!, please add what you want to edit or \t try 'help'");
+  }
+    else if(+i === -1){
+            list[list.length-1]={task:new_value,done:false};
       console.log("task "+(list.length)+" changed to "+new_value);
       console.log("------------------");
     }else{
-    list[--i]=new_value;
+    list[--i]={task:new_value,done:false};
     console.log("task "+(++i)+" changed to "+new_value);
     console.log("------------------");
   }
@@ -131,14 +135,14 @@ function edit(i,new_value){
  * @returns {void}
  */
 function remove(index){
-  if(index>list.length-1){
+  if(index-1>list.length-1){
     console.log("You entered a wrong number\t try 'help'");
 
   }
   else if(index){
-    console.log(list[index]+" task is removed");
+    console.log(list[index-1].task+" task is removed");
     console.log("------------------");
-    list.splice(index);
+    list.splice(index-1,1);
 
   }else{
     console.log("last task is removed");
