@@ -1,4 +1,6 @@
+const fs=require("fs");
 
+var json={list:[]};
 /**
  * Starts the application
  * This is the function that is run when the app starts
@@ -10,11 +12,19 @@
  * @returns {void}
  */
 function startApp(name){
+  try{
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
-  process.stdin.on('data', onDataReceived);
-  console.log(`Welcome to ${name}'s application!`)
+  fs.readFile("database.json",(err,data)=>{
+    json=JSON.parse(data);
+    process.stdin.on('data', onDataReceived);
+    console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
+  })
+}catch(err){
+  console.log(err);
+}
+  
 }
 
 
@@ -79,8 +89,6 @@ function onDataReceived(text) {
   }
 }
 
-//Declare List of tasks.
-const list = [{task:"Buy coffee",done:false},{task:"Do sport at 6",done:true}];
 
 /**
  * prints the list items
@@ -88,7 +96,7 @@ const list = [{task:"Buy coffee",done:false},{task:"Do sport at 6",done:true}];
  * @returns {void}
  */
 function List(){
-  list.map((item,index)=>{
+  json.list.map((item,index)=>{
     console.log((index+1)+"- ["+(item.done?" \u2713 ":" ")+"] "+item.task);
   })
 }
@@ -102,7 +110,7 @@ function List(){
  */
 function add (item){
   if(item){
-    list.push({task:item,done:false});
+    json.list.push({task:item,done:false});
     console.log(item+" is added to the list");
     console.log("------------------");
   }else{
@@ -123,11 +131,11 @@ function edit(i,new_value){
     console.log("ERROR!, please add what you want to edit or \t try 'help'");
   }
     else if(+i === -1){
-            list[list.length-1]={task:new_value,done:false};
-      console.log("task "+(list.length)+" changed to "+new_value);
+            json.list[json.list.length-1]={task:new_value,done:false};
+      console.log("task "+(json.list.length)+" changed to "+new_value);
       console.log("------------------");
     }else{
-    list[--i]={task:new_value,done:false};
+    json.list[--i]={task:new_value,done:false};
     console.log("task "+(++i)+" changed to "+new_value);
     console.log("------------------");
   }
@@ -141,19 +149,19 @@ function edit(i,new_value){
  * @returns {void}
  */
 function remove(index){
-  if(index-1>list.length-1){
+  if(index-1>json.list.length-1){
     console.log("You entered a wrong number\t try 'help'");
 
   }
   else if(index){
-    console.log(list[index-1].task+" task is removed");
+    console.log(json.list[index-1].task+" task is removed");
     console.log("------------------");
-    list.splice(index-1,1);
+    json.list.splice(index-1,1);
 
   }else{
     console.log("last task is removed");
     console.log("------------------");
-    list.pop();
+    json.list.pop();
   }
 }
 
@@ -170,7 +178,7 @@ function check(index){
   if(!index){
     console.log("ERROR!, specify which task to check or \t try 'help'");
   }else{
-    list[index-1].done=true;
+    json.list[index-1].done=true;
     console.log("task "+index+" is done!");
     console.log("------------------");
   }
@@ -188,7 +196,7 @@ function unCheck(index){
   if(!index){
     console.log("ERROR!, specify which task to check or \t try 'help'");
   }else{
-    list[index-1].done=false;
+    json.list[index-1].done=false;
     console.log("task "+index+" is unchecked");
     console.log("------------------");
   }
@@ -223,8 +231,11 @@ function hello(text){
  * @returns {void}
  */
 function quit(){
-  console.log('Quitting now, goodbye!')
-  process.exit();
+  json=JSON.stringify(json);
+  fs.writeFile("database.json",json,()=>{
+    console.log('Quitting now, goodbye!')
+    process.exit();
+  });
 }
 
 
