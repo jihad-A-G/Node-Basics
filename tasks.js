@@ -1,3 +1,4 @@
+const { log } = require("console");
 const fs=require("fs");
 
 var json={list:[]};
@@ -133,7 +134,7 @@ function add (item){
  */
 
 function edit(i,new_value){
-  if(i){
+  if(!i){
     console.log("ERROR!, please add what you want to edit or \t try 'help'");
   }
     else if(+i === -1){
