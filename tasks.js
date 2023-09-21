@@ -1,6 +1,7 @@
 const fs=require("fs");
 
 var json={list:[]};
+var fileToRead=process.argv[2];
 /**
  * Starts the application
  * This is the function that is run when the app starts
@@ -15,12 +16,17 @@ function startApp(name){
   try{
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
-  fs.readFile("database.json",(err,data)=>{
+  fs.stat(fileToRead??"database.json",(err,stats)=>{
+    if(stats.size!==0){
+       fs.readFile(fileToRead?fileToRead:"database.json",(err,data)=>{
     json=JSON.parse(data);
+  })
+    }
     process.stdin.on('data', onDataReceived);
     console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
   })
+ 
 }catch(err){
   console.log(err);
 }
@@ -232,7 +238,7 @@ function hello(text){
  */
 function quit(){
   json=JSON.stringify(json);
-  fs.writeFile("database.json",json,()=>{
+  fs.writeFile(fileToRead??"database.json",json,()=>{
     console.log('Quitting now, goodbye!')
     process.exit();
   });
